@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="莉莉遠征">
+<meta name="theme-color" content="#be185d">
+<meta name="robots" content="noindex,nofollow">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
+<title>莉莉遠征</title>
+<style>
+ :root{--ink:#4a3560;--dim:#9d7ab0;--panel:#fff7fb;--panel2:#fce7f3;--edge:#fbcfe8;--gold:#d97706;--pink:#ec4899}
+ *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+ html,body{margin:0;height:100%;background:#4a1d3a;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+ body{display:flex;align-items:center;justify-content:center;min-height:100%;padding:calc(env(safe-area-inset-top,0px) + 24px) 22px calc(env(safe-area-inset-bottom,0px) + 24px);
+  background:radial-gradient(120% 70% at 50% 18%,#9d174d 0%,#701a45 45%,#4a1d3a 100%);overflow:hidden}
+ #card{position:relative;width:100%;max-width:360px;padding:26px 22px 20px;border-radius:24px;border:2px solid #fff;
+  background:linear-gradient(170deg,var(--panel),var(--panel2));box-shadow:0 0 0 4px rgba(251,207,232,.45),0 18px 40px rgba(40,8,30,.55);text-align:center}
+ .logo{width:84px;height:84px;margin:-62px auto 8px;border-radius:22px;border:3px solid #fff;overflow:hidden;box-shadow:0 0 0 3px #f9a8d4,0 10px 22px rgba(40,8,30,.45);background:#fce7f3}
+ .logo img{width:100%;height:100%;display:block;object-fit:cover}
+ h1{margin:4px 0 2px;font-size:28px;letter-spacing:.12em;color:#be185d;text-shadow:0 2px 0 #fff}
+ .sub{margin:0 0 18px;font-size:13px;color:var(--dim)}
+ form{display:flex;flex-direction:column;gap:12px}
+ input[type=password]{width:100%;font-size:17px;padding:13px 14px;border-radius:14px;border:2px solid var(--edge);background:#fff;color:var(--ink);outline:none;text-align:center;letter-spacing:.08em}
+ input[type=password]:focus{border-color:#f9a8d4;box-shadow:0 0 0 3px rgba(249,168,212,.35)}
+ .rm{display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;color:var(--ink);user-select:none}
+ .rm input{width:19px;height:19px;accent-color:var(--pink);margin:0}
+ button{font-size:17px;font-weight:700;padding:13px;border-radius:14px;border:0;color:#fff;letter-spacing:.1em;
+  background:linear-gradient(#f472b6,#db2777);box-shadow:0 3px 0 #9d174d,0 6px 14px rgba(190,24,93,.35)}
+ button:active{transform:translateY(2px);box-shadow:0 1px 0 #9d174d}
+ button:disabled{opacity:.6}
+ #err{min-height:20px;margin:0;font-size:14px;color:#c2506a}
+ .shake{animation:sh .38s}
+ @keyframes sh{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+ #prog{margin-top:6px}
+ .bar{height:12px;border-radius:99px;background:#fce7f3;border:2px solid #fff;box-shadow:0 0 0 1.5px #f9a8d4;overflow:hidden}
+ .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#f9a8d4,#fbbf24);transition:width .2s}
+ #pt{margin:9px 0 0;font-size:13px;color:var(--dim)}
+ .foot{margin:14px 0 0;font-size:11px;color:#c4a0b8}
+ [hidden]{display:none!important}
+</style></head><body>
+<main id="card">
+ <div class="logo"><img src="apple-touch-icon.png" alt=""></div>
+ <h1>莉莉遠征</h1>
+ <p class="sub">私人橫向放置原型・請輸入密碼進入</p>
+ <form id="f" autocomplete="on">
+  <input type="text" name="username" value="lily-expedition" autocomplete="username" hidden>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="密碼" aria-label="密碼" required>
+  <label class="rm"><input id="rm" type="checkbox"> 在這台裝置上記住</label>
+  <button id="go" type="submit">進入遊戲</button>
+  <p id="err" role="alert"></p>
+ </form>
+ <div id="prog" hidden><div class="bar"><i id="pb"></i></div><p id="pt">準備中…</p></div>
+ <p class="foot" id="ft">遊戲進度只保存在這台裝置上</p>
+</main>
+<script>
+(()=>{'use strict';
+const M={"v":1,"s":"a3eqXbFtmja7OI3CQ8HV7g==","i":310000,"c":["0AQizscsMZ+YykqC","0Oj6D6lxNjCqN74UDDl72B/AHzh8ojc="],"b":[{"f":"d/b22dcf6b77bd2cc7.bin","n":3831086,"boot":1},{"f":"d/a74ff85f95f8847b.bin","n":16522779,"boot":0}]};
+const te=new TextEncoder(),td=new TextDecoder(),$=i=>document.getElementById(i),KEY='lily_expedition_key_v1';
+const ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),bu=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s);};
+const F=window.fetch.bind(window),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const DL=M.b.map(b=>({b,got:0,p:null}));let UI=null;
+const prog=()=>{if(!UI)return;try{prog2();}catch(e){}};
+const prog2=()=>{const bt=DL.filter(d=>d.b.boot),n=bt.reduce((a,d)=>a+d.b.n,0),g=bt.reduce((a,d)=>a+Math.min(d.got,d.b.n),0),f=n?g/n:1;
+ UI(f*.9,'下載中 '+(g/1048576).toFixed(1)+' / '+(n/1048576).toFixed(1)+' MB');};
+const get=d=>d.p||(d.p=(async()=>{let e;for(let t=0;t<6;t++){try{const r=await F(d.b.f);if(!r.ok)throw new Error('HTTP '+r.status);
+  if(r.body&&r.body.getReader){const rd=r.body.getReader(),P=[];d.got=0;for(;;){const x=await rd.read();if(x.done)break;P.push(x.value);d.got+=x.value.length;prog();}
+   const o=new Uint8Array(d.got);let k=0;for(const p of P){o.set(p,k);k+=p.length;}return o;}
+  const o=new Uint8Array(await r.arrayBuffer());d.got=o.length;prog();return o;}catch(x){e=x;d.got=0;await sleep(400*(t+1));}}throw e;})());
+for(const d of DL)if(d.b.boot)get(d);
+const derive=async pw=>{const k=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',salt:ub(M.s),iterations:M.i,hash:'SHA-256'},k,{name:'AES-GCM',length:256},true,['decrypt']);};
+const check=async k=>{try{return td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:ub(M.c[0])},k,ub(M.c[1])))==='lily-ok';}catch(x){return false;}};
+const dec=async(k,u)=>new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.subarray(0,12)},k,u.subarray(12)));
+const MAP=Object.create(null),WAIT=[];let DONE=false,HTML=null;
+const VB='https://lx.invalid/index.html';
+const norm=u=>{try{const x=new URL(u,VB);return x.host==='lx.invalid'?decodeURIComponent(x.pathname.slice(1)):null;}catch(e){return null;}};
+const ext=u=>/^(blob:|data:)/i.test(u);
+const look=u=>{u=String(u);if(ext(u))return u;const k=norm(u);if(k===null)return u;return MAP[k]||null;};
+const route=(u,set)=>{const r=look(u);if(r)return set(r);if(DONE)return set('data:,');WAIT.push([u,set]);};
+const unpack=u=>{const n=new DataView(u.buffer,u.byteOffset,4).getUint32(0,true),idx=JSON.parse(td.decode(u.subarray(4,4+n))),b=4+n;
+ for(const [p,mime,o,l] of idx){const s=u.subarray(b+o,b+o+l);if(p==='index.html')HTML=td.decode(s);else MAP[p]=URL.createObjectURL(new Blob([s],{type:mime}));}};
+const hooks=()=>{
+ window.__LXU=u=>look(u)||'data:,';window.__LXK=u=>!!MAP[norm(u)];window.__LXR=route;
+ const IP=HTMLImageElement.prototype,SD=Object.getOwnPropertyDescriptor(IP,'src');
+ Object.defineProperty(IP,'src',{configurable:true,enumerable:true,get(){return SD.get.call(this);},set(v){route(v,u=>SD.set.call(this,u));}});
+ const SA=Element.prototype.setAttribute;Element.prototype.setAttribute=function(n,v){if(this instanceof HTMLImageElement&&String(n).toLowerCase()==='src'){this.src=v;return;}return SA.call(this,n,v);};
+ const rw=h=>typeof h!=='string'?h:h.replace(/(\bsrc=)(["'])([^"']*)\2/g,(m,a,q,u)=>a+q+(look(u)||'data:,')+q).replace(/url\((["']?)([^"')]+)\1\)/g,(m,q,u)=>'url('+q+(look(u)||'data:,')+q+')');
+ const IH=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');
+ Object.defineProperty(Element.prototype,'innerHTML',{configurable:true,enumerable:true,get(){return IH.get.call(this);},set(v){IH.set.call(this,rw(v));}});
+ const IA=Element.prototype.insertAdjacentHTML;Element.prototype.insertAdjacentHTML=function(p,h){return IA.call(this,p,rw(h));};
+ window.fetch=(u,o)=>{if(typeof u==='string'&&!ext(u)){const k=norm(u);if(k!==null){const r=MAP[k];if(r)return F(r);
+   if(!DONE)return new Promise(res=>WAIT.push([u,x=>res(x==='data:,'?new Response('',{status:404}):F(x))]));return Promise.resolve(new Response('',{status:404}));}}return F(u,o);};
+};
+const flush=()=>{DONE=true;window.__LXDONE=true;const w=WAIT.splice(0);for(const [u,set] of w)set(look(u)||'data:,');};
+const boot=async k=>{
+ $('f').hidden=true;$('prog').hidden=false;$('ft').textContent='解鎖成功';
+ UI=(f,t)=>{const b=$('pb'),x=$('pt');if(!b||!x)return;b.style.width=(f*100).toFixed(1)+'%';x.textContent=t;};prog();
+ const B=DL.filter(d=>d.b.boot),R=DL.filter(d=>!d.b.boot);
+ for(const d of B){const u=await get(d);UI(.92,'解密中…');unpack(await dec(k,u));}
+ UI(1,'啟動中…');hooks();
+ Promise.all(R.map(async d=>{try{unpack(await dec(k,await get(d)));}catch(e){console.warn('bundle',d.b.f,e&&e.message);}})).then(flush);
+ const html=HTML;
+ await sleep(30);UI=null;document.open();document.write(html);document.close();
+};
+const fail=t=>{const e=$('err');e.textContent=t;const c=$('card');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');$('go').disabled=false;$('go').textContent='進入遊戲';};
+$('f').addEventListener('submit',async ev=>{ev.preventDefault();const pw=$('pw').value;if(!pw)return;$('err').textContent='';$('go').disabled=true;$('go').textContent='驗證中…';
+ let k;try{k=await derive(pw);}catch(e){return fail('這個瀏覽器不支援解密，請用新版 Safari 或 Chrome。');}
+ if(!(await check(k))){$('pw').select();return fail('密碼不正確，請再試一次。');}
+ if($('rm').checked){try{localStorage.setItem(KEY,JSON.stringify({s:M.s,k:bu(new Uint8Array(await crypto.subtle.exportKey('raw',k)))}));}catch(e){}}
+ else{try{localStorage.removeItem(KEY);}catch(e){}}
+ try{await boot(k);}catch(e){$('f').hidden=false;$('prog').hidden=true;fail('載入失敗，請檢查網路後再試一次。');}
+});
+(async()=>{let r=null;try{r=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+ if(!r||r.s!==M.s){if(r)try{localStorage.removeItem(KEY);}catch(e){}return;}
+ try{const k=await crypto.subtle.importKey('raw',ub(r.k),{name:'AES-GCM'},false,['decrypt']);if(await check(k)){$('rm').checked=true;return boot(k);}}catch(e){}
+ try{localStorage.removeItem(KEY);}catch(e){}})();
+})();
+</script>
+</body></html>
